@@ -56,6 +56,22 @@ const showWinner = (Winner) => {
     disableBoxes();
 }
 
+const showDraw = () => {
+    msg.innerText = "Match Draw!";
+    msgContainer.classList.remove("hide");
+    disableBoxes();
+}
+
+const checkDraw = () => {
+    let filled = 0;
+    boxes.forEach((box) => {
+        if(box.innerText !== "") filled++;
+        if(filled === 9) {
+            showDraw();
+        }
+    })
+};
+
 const checkWinner = () => {
     for(let pattern of winPattern) {
         let pos1Val = boxes[pattern[0]].innerText;
@@ -66,9 +82,11 @@ const checkWinner = () => {
             if(pos1Val === pos2Val && pos2Val === pos3Val) {
                 console.log("Winner");
                 showWinner(pos1Val);
+                return;
             }
         }
     }
+    checkDraw();
 };
 
 newGameBtn.addEventListener("click", resetGame);
